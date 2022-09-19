@@ -369,14 +369,27 @@ Auth <- setRefClass(
         return(req)
       } else {
         if (breakdown) {
-          req <- api(
-            path = paste0("billing/groups/", id, "/breakdown"),
-            method = "GET", ...
+          # breakdown is now split into 3 categories: analysis, storage, and egress
+          # need 3 get requests to pull all of this information
+          req <- list(
+            summary = api(path = paste0("billing/groups/", id), method = "GET", ...),
+            analysis = api(
+              path = paste0("billing/groups/", id, "/breakdown/analysis"),
+              method = "GET", ...),
+            storage = api(
+              path = paste0("billing/groups/", id, "/breakdown/storage"),
+              method = "GET",...),
+            egress = api(
+              path = paste0("billing/groups/", id, "/breakdown/egress"),
+              method = "GET",...)
           )
+
+          # req <- function to format breakdown object
         } else {
           req <- api(path = paste0("billing/groups/", id), method = "GET", ...)
+
+          req <- .asBilling(req)
         }
-        req <- .asBilling(req)
 
         return(req)
       }

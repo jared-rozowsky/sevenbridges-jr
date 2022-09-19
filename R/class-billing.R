@@ -10,36 +10,30 @@ Billing <- setRefClass(
 
   fields = list(
     id = "characterORNULL",
-    name = "characterORNULL",
     owner = "characterORNULL",
-    privileges = "listORNULL",
+    name = "characterORNULL",
     type = "characterORNULL",
     pending = "logicalORNULL",
     disabled = "logicalORNULL",
-    active = "logicalORNULL",
     balance = "listORNULL",
-    project_breakdown = "listORNULL",
-    total_spending = "listORNULL"
+    currency = "characterORNULL",
+    amount = "numericORNULL"
   ), # 1.1
 
   methods = list(
-    initialize = function(id = NULL, name = NULL, owner = NULL,
-                              privileges = list(), type = NULL, pending = NULL,
-                              disabled = NULL, active = NULL, balance = list(),
-                              project_breakdown = list(), total_spending = list(),
-                              ...) {
+    initialize = function(id = NULL, owner = NULL, name = NULL,
+                          type = NULL, pending = NULL,
+                          disabled = NULL, balance = list(), currency = NULL, amount = NULL, ...) {
       id <<- id
       name <<- name
       owner <<- owner
-      privileges <<- privileges
       type <<- type
+      pending <<- pending
       disabled <<- disabled
-      active <<- active
       balance <<- balance
+      currency <<- currency
+      amount <<- amount
 
-      # for breakdown
-      project_breakdown <<- project_breakdown
-      total_spending <<- total_spending
 
       callSuper(...)
     },
@@ -49,9 +43,8 @@ Billing <- setRefClass(
         .self, "== Billing ==",
         values = c(
           "id", "href", "name",
-          "owner", "privileges", "type",
-          "disabled", "active", "balance",
-          "project_breakdown", "total_spending"
+          "owner", "type",
+          "disabled", "balance"
         )
       )
     }
@@ -64,15 +57,13 @@ Billing <- setRefClass(
     href = x$href,
     name = x$name,
     owner = x$owner,
-    privileges = x$privileges,
     type = x$type,
+    pending = x$pending,
     disabled = x$disabled,
-    active = x$active,
     balance = x$balance,
-    response = response(x),
-    # for breakdown
-    project_breakdown = x$project_breakdown,
-    total_spending = x$total_spending
+    currency = x$balance$currency,
+    amount = x$balance$amount,
+    response = response(x)
   )
 }
 
