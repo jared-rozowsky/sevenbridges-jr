@@ -59,6 +59,8 @@ api <- function(token = NULL, version = "v2", path = NULL,
                 encode = c("json", "form", "multipart"),
                 limit = getOption("sevenbridges")$limit,
                 offset = getOption("sevenbridges")$offset,
+                date_from = getOption("sevenbridges")$date_from,
+                date_to = getOption("sevenbridges")$date_to,
                 advance_access = getOption("sevenbridges")$advance_access,
                 authorization = FALSE,
                 fields = NULL,
@@ -83,7 +85,8 @@ api <- function(token = NULL, version = "v2", path = NULL,
   if (advance_access) headers <- c(headers, "X-SBG-advance-access" = "advance")
 
   # setup query
-  query <- c(query, list(limit = limit, offset = offset, fields = fields))
+  query <- c(query, list(limit = limit, offset = offset, date_from = date_from, date_to = date_to, fields = fields))
+  # query <- c(query, list(limit = limit, offset = offset, fields = fields))
   idx <- !sapply(query, is.null)
   if (any(idx)) {
     query <- query[idx]

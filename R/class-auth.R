@@ -291,12 +291,14 @@ Auth <- setRefClass(
     # api paths ----------------------------------------------------------------
     api = function(..., limit = getOption("sevenbridges")$"limit",
                        offset = getOption("sevenbridges")$"offset",
+                  date_from = getOption("sevenbridges")$"date_from",
+                  date_to = getOption("sevenbridges")$"date_to",
                        fields = NULL, complete = FALSE) {
       "This call returns all API paths, and pass arguments to api() function with input token and url automatically"
 
       req <- sevenbridges::api(
         token,
-        base_url = url, limit = limit,
+        base_url = url, limit = limit, date_from = date_from, date_to = date_to,
         offset = offset, fields = fields, authorization = authorization, ...
       )
       req <- status_check(req)
